@@ -27,6 +27,9 @@ python pie.py
 *scrape - Fetch the data from different Online Judges and dump it to JSON file*    
 *pie - Parse the JSON file and visualize it using a Pie Chart*    
        
+# Sample
+![alt text](https://github.com/sidhantnagpal/algorithmic-progress-visualizer/blob/master/sample/sample.png "Sample")
+
 # How to Contribute?
 Feel free to ping me via [email](mailto:sidhantnagpal97@gmail.com)! :)    
     
