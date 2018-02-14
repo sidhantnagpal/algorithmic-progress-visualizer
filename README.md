@@ -14,7 +14,7 @@ sudo cp chromedriver /usr/local/bin/
     
 *For macOS or Windows, use Python Command Line to install following libraries*     
 (download and install ChromeDriver)    
-pip install requests beautifulsoup4 matplotlib python-tk selenium pyvirtualdisplay xvfbwrapper
+pip install requests beautifulsoup4 matplotlib python-tk selenium pyvirtualdisplay xvfbwrapper      
 (make sure xvfb is supported by your OS and install it)   
     
 # Execution
