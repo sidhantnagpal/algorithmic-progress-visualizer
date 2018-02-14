@@ -1,0 +1,173 @@
+'''
+	Created by Sidhant Nagpal
+	Feb 1, 2018
+'''
+
+from sys import stdout
+import re, json, requests
+from bs4 import BeautifulSoup
+from pyvirtualdisplay import Display
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+from selenium.webdriver import Chrome, ChromeOptions
+from selenium import webdriver
+
+def stat(judge,probs):
+	print '{: <4}: {}'.format(judge,probs)
+	return probs
+
+def codechef(handle):
+	usr='http://www.codechef.com/users/' + handle
+	request=requests.get(usr)
+	content=request.content
+	soup=BeautifulSoup(content,'html.parser')
+	element=soup.find('section',{'class':'rating-data-section problems-solved'})
+	prb = int(re.findall(r'\d+',element.findAll('h5')[0].text)[0])
+	return stat('CC',prb)
+
+def codeforces(handle): 
+	usr='http://www.codeforces.com/submissions/' + handle
+	request=requests.get(usr)
+	content=request.content
+	soup=BeautifulSoup(content,'html.parser')
+	element=soup.findAll('span',{'class':'page-index'})
+	pages=int(element[-1].text)
+	probs=set()
+	for page in xrange(pages):
+		url = usr + '/page/' + str(page+1)
+		request=requests.get(url)
+		content=request.content
+		soup=BeautifulSoup(content,'html.parser')
+		element=soup.findAll('span',{'submissionverdict':'OK'})
+		for x in element:
+			y=x.parent.find_previous_sibling().find_previous_sibling()
+			probs.add(int(y['data-problemid']))
+		stdout.write('%d%%'%(100*page/pages))
+		stdout.flush()
+		stdout.write('\r')
+	return stat('CF',len(probs))
+
+def spoj(handle):
+	usr='http://www.spoj.com/users/' + handle
+	request=requests.get(usr)
+	content=request.content
+	soup=BeautifulSoup(content,'html.parser')
+	element=soup.find('dl',{'class':'dl-horizontal profile-info-data profile-info-data-stats'})
+	prb = int(element.findAll('dd')[0].text)
+	return stat('SP',prb)
+
+def uri(jid):
+	usr='https://www.urionlinejudge.com.br/judge/en/profile/' + jid
+	request=requests.get(usr)
+	content=request.content
+	soup=BeautifulSoup(content,'html.parser')
+	element=soup.find('span',string='Solved:')
+	prb = int(re.findall(r'\d+',element.parent.text)[0])
+	return stat('URI',prb)
+
+def timus(jid):
+	usr='http://acm.timus.ru/author.aspx?id=' + jid
+	request=requests.get(usr)
+	content=request.content
+	soup=BeautifulSoup(content,'html.parser')
+	element=soup.findAll('td',{'class':'author_stats_value'})[1]
+	prb = int(re.findall(r'\d+',element.text)[0])
+	return stat('TI',prb)
+
+def poj(handle):
+	usr='http://poj.org/userstatus?user_id=' + handle
+	request=requests.get(usr)
+	content=request.content
+	soup=BeautifulSoup(content,'html.parser')
+	element=soup.find('a',href='status?result=0&user_id=' + handle)
+	prb=int(element.string)
+	return stat('PKU',prb)
+
+def uhunt(judge,jid):
+	if judge=='UVa':
+		usr='https://uhunt.onlinejudge.org/api/subs-user-last/'
+	elif judge=='LA':
+		usr='https://icpcarchive.ecs.baylor.edu/uhunt/api/subs-user-last/'
+	usr+=jid
+	usr+='/100000' 
+	request=requests.get(usr)
+	content=request.content
+	data = json.loads(content)
+	s = set()
+	for a in data['subs']:
+		if a[-1]!=-1: s.add(a[1])
+	return stat(judge,len(s))
+
+def hackerrank(handle,browser):
+	usr='https://www.hackerrank.com/' + handle
+	browser.get(usr)
+
+	wait = WebDriverWait(browser,8)
+	by = By.CSS_SELECTOR
+	sel = 'a[data-analytics="ProfileChallengesLoadMore"]'
+	tup = (by,sel)
+	while True:
+		try:
+			wait.until(EC.visibility_of_element_located(tup))
+			browser.find_element_by_css_selector(sel).click()
+		except Exception as e:
+			break
+	sel = 'a[data-analytics="ProfileChallengesLink"]'
+	prb = len(browser.find_elements_by_css_selector(sel))
+	return stat('HR',prb)
+
+def main():
+	print 'Total Problems Solved Statistics'
+	print 'Press Enter to Skip'
+	data = {}
+
+	handle = raw_input('CodeChef Handle: ')
+	if handle != '':
+		data['CodeChef'] = codechef(handle)
+	
+	handle = raw_input('SPOJ Handle: ')
+	if handle != '':
+		data['SPOJ'] = spoj(handle)
+	
+	handle = raw_input('Codeforces Handle: ')
+	if handle != '':
+		data['Codeforces'] = codeforces(handle) 
+
+	handle = raw_input('URI ID: ')
+	if handle != '':
+		data['URI'] = uri('129283')
+	
+	handle = raw_input('UVa ID: ')
+	if handle != '':
+		data['UVa'] = uhunt('UVa','872150') 
+
+	handle = raw_input('LiveArchive ID: ')
+	if handle != '':
+		data['LiveArchive'] = uhunt('LA','227430') 
+
+	handle = raw_input('Timus ID: ')
+	if handle != '':
+		data['Timus'] = timus('220577')
+	
+	handle = raw_input('POJ ID: ')
+	if handle != '':
+		data['POJ'] = poj(handle)
+
+	display = Display(visible=0,size=(800,600))
+	display.start()
+	browser = webdriver.Chrome('/usr/local/bin/chromedriver')
+	
+	handle = raw_input('HackerRank Handle: ')
+	if handle != '':
+		data['HackerRank'] = hackerrank(handle,browser)
+	
+	browser.quit()
+	display.stop()
+	
+	with open("data.json", "w") as outfile:
+		json.dump(data, outfile, indent=4)
+
+	probs = sum(data.itervalues()) 
+	print 'TOT : {}'.format(probs)
+main()
