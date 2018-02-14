@@ -1,6 +1,10 @@
 # Algorithmic Progress Visualizer
-Python Web Scraper &amp; Data Visualizer for keeping track and visualising Algorithmic Progress on various Online Judges (Codeforces, SPOJ, CodeChef, CSAcademy, HackerRank, HackerEarth, UVa).   
-    
+Python Web Scraper &amp; Data Visualizer for keeping track and visualising Algorithmic Progress on various Online Judges (Codeforces, SPOJ, CodeChef, CSAcademy, HackerRank, HackerEarth, UVa).  
+
+# Supported Platforms:
+Linux   
+macOS   
+       
 # Setup
 *Python Version >= 2.7*   
      
@@ -18,8 +22,13 @@ pip install requests beautifulsoup4 matplotlib python-tk selenium pyvirtualdispl
 (download and install Chrome Driver to /usr/local/bin)    
 
 # Execution
-*Fetch the data from different Online Judges and dump it to JSON file*    
-python scrape.py     
+python scrape.py         
+python pie.py   
+*scrape - Fetch the data from different Online Judges and dump it to JSON file*    
+*pie - Parse the JSON file and visualize it using a Pie Chart*    
+       
+# How to Contribute?
+Feel free to ping me via [email](mailto:sidhantnagpal97@gmail.com)! :)    
     
-*Parse the JSON file and visualize it using a Pie Chart*    
-python pie.py
+# License
+GPL-3.0 © [Sidhant Nagpal](mailto:sidhantnagpal97@gmail.com) 
