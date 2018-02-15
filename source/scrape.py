@@ -117,6 +117,37 @@ def hackerrank(handle,browser):
 	prb = len(browser.find_elements_by_css_selector(sel))
 	return stat('HR',prb)
 
+def hackerearth(handle,browser):
+	usr='https://www.hackerearth.com/' + 'submissions/' + handle	
+	browser.get(usr)
+
+	wait = WebDriverWait(browser,8)
+	by = By.CSS_SELECTOR
+	page = 1
+	probs = set()
+	browser.find_element_by_xpath("//select[@name='result']/option[text()='Accepted']").click()
+	while True:
+		# prevent class="loader-overlay"
+		wait.until(EC.visibility_of_element_located((by,'div[class=""]')))
+		stdout.write('Page %d'%(page))
+		stdout.flush()
+		stdout.write('\r')
+		page += 1
+		content = browser.page_source
+		soup=BeautifulSoup(content,'html.parser')
+		element=soup.findAll('i',{'class':'fa fa-check-circle fa-green result-icon tool-tip'})
+		for x in element:
+			y=x.parent.find_previous_sibling()
+			probs.add(y['title'])
+
+		sel = 'i[class="fa fa-angle-right dark"]'
+		el = browser.find_element_by_css_selector(sel)
+		pel = el.find_element_by_xpath('..') 
+		if pel.get_attribute('class')=='disabled-arrow arrow':
+			break
+		browser.find_element_by_css_selector(sel).click()
+	return stat('HE',len(probs))
+
 def main():
 	print 'Total Problems Solved Statistics'
 	print 'Press Enter to Skip'
@@ -161,6 +192,10 @@ def main():
 	handle = raw_input('HackerRank Handle: ')
 	if handle != '':
 		data['HackerRank'] = hackerrank(handle,browser)
+
+	handle = raw_input('HackerEarth Handle: ')
+	if handle != '':
+		data['HackerEarth'] = hackerearth(handle,browser) 
 	
 	browser.quit()
 	display.stop()
