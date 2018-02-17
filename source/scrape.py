@@ -66,6 +66,21 @@ def uri(jid):
 	prb = int(re.findall(r'\d+',element.parent.text)[0])
 	return stat('URI',prb)
 
+def csacademy(handle,browser):
+	usr='https://csacademy.com/user/' + handle
+	
+	browser.get(usr)
+
+	wait = WebDriverWait(browser,8)
+	by = By.CSS_SELECTOR
+	sel = 'span[style="font-size: 1.3em; margin-bottom: 10px;"]'
+	tup = (by,sel)
+	wait.until(EC.visibility_of_element_located(tup))
+	element = browser.find_element_by_css_selector(sel)
+	
+	prb = int(re.findall(r'\d+',element.text)[0])
+	return stat('CSA',prb)
+
 def timus(jid):
 	usr='http://acm.timus.ru/author.aspx?id=' + jid
 	request=requests.get(usr)
@@ -188,6 +203,10 @@ def main():
 	display = Display(visible=0,size=(800,600))
 	display.start()
 	browser = webdriver.Chrome('/usr/local/bin/chromedriver')
+	
+	handle = raw_input('CSAcademy Handle: ')
+	if handle != '':
+		data['CSAcademy'] = csacademy(handle,browser)
 	
 	handle = raw_input('HackerRank Handle: ')
 	if handle != '':
