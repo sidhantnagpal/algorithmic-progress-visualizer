@@ -26,26 +26,21 @@ def codechef(handle):
 	prb = int(re.findall(r'\d+',element.findAll('h5')[0].text)[0])
 	return stat('CC',prb)
 
-def codeforces(handle): 
-	usr='http://www.codeforces.com/submissions/' + handle
+def codeforces(handle): # using codeforces api
+	# http://codeforces.com/api/help/methods#user.info
+	usr = 'http://codeforces.com/api/user.status?handle='
+	usr += handle
+	usr += '&from=1&count=100000'
+	stdout.write('Wait 30s!')
+	stdout.flush()
+	stdout.write('\r')
 	request=requests.get(usr)
 	content=request.content
-	soup=BeautifulSoup(content,'html.parser')
-	element=soup.findAll('span',{'class':'page-index'})
-	pages=int(element[-1].text)
-	probs=set()
-	for page in xrange(pages):
-		url = usr + '/page/' + str(page+1)
-		request=requests.get(url)
-		content=request.content
-		soup=BeautifulSoup(content,'html.parser')
-		element=soup.findAll('span',{'submissionverdict':'OK'})
-		for x in element:
-			y=x.parent.find_previous_sibling().find_previous_sibling()
-			probs.add(int(y['data-problemid']))
-		stdout.write('%d%%'%(100*page/pages))
-		stdout.flush()
-		stdout.write('\r')
+	data = json.loads(content)
+	probs = set()
+	for a in data['result']:
+		if a['verdict']=='OK':
+			probs.add(a['problem']['name'])
 	return stat('CF',len(probs))
 
 def spoj(handle):
