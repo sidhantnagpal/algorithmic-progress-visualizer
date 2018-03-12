@@ -6,7 +6,7 @@ Linux
 macOS   
        
 # Setup
-*Python Version >= 2.7*   
+*Python 2 Version >= 2.7*   
      
 *For Synaptic Package Manager*   
 sudo pip install requests beautifulsoup4 matplotlib python-tk selenium pyvirtualdisplay xvfbwrapper    
