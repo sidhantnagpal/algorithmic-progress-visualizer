@@ -177,19 +177,19 @@ def main():
 
 	handle = raw_input('URI ID: ')
 	if handle != '':
-		data['URI'] = uri('129283')
+		data['URI'] = uri(handle)
 	
 	handle = raw_input('UVa ID: ')
 	if handle != '':
-		data['UVa'] = uhunt('UVa','872150') 
+		data['UVa'] = uhunt('UVa',handle) 
 
 	handle = raw_input('LiveArchive ID: ')
 	if handle != '':
-		data['LiveArchive'] = uhunt('LA','227430') 
+		data['LiveArchive'] = uhunt('LA',handle) 
 
 	handle = raw_input('Timus ID: ')
 	if handle != '':
-		data['Timus'] = timus('220577')
+		data['Timus'] = timus(handle)
 	
 	handle = raw_input('POJ ID: ')
 	if handle != '':
