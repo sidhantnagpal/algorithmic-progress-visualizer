@@ -24,7 +24,7 @@ labels = ['{} ({}) ({:.1f}%)'.format(x,y,100.*y/probs) for x, y in a]
 colors = ['crimson','lightcoral','darkcyan','green','coral','orange','seagreen','purple','gold','mediumvioletred','darkturquoise','greenyellow','indigo','limegreen']
 shuffle(colors)
 colors = colors[:len(a)]
-patches, texts = plt.pie(values, colors=colors, rotatelabels=True, frame=True, shadow=True, startangle=100)
+patches, texts = plt.pie(values, colors=colors, frame=True, shadow=True, startangle=100)
 plt.axis('equal')
 plt.title('Total Solved = {}'.format(probs), loc='left')
 plt.legend(patches, labels, loc='lower right')
