@@ -40,4 +40,4 @@ python pie.py
 Feel free to ping me via [email](mailto:sidhantnagpal97@gmail.com)! :)    
     
 # License
-GPL-3.0
+MIT
