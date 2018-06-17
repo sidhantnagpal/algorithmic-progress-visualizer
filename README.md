@@ -37,7 +37,7 @@ python pie.py
 ![alt text](https://github.com/sidhantnagpal/algorithmic-progress-visualizer/blob/master/sample/sample.png "Sample")
 
 # How to Contribute?
-Feel free to ping me via [email](mailto:sidhantnagpal97@gmail.com)! :)    
+Feel free to ping me via [email](mailto:sidhantnagpal97@gmail.com).    
     
 # License
 MIT
