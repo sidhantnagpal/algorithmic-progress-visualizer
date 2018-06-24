@@ -10,8 +10,8 @@ macOS
      
 *For Synaptic Package Manager*   
 ```bash
-sudo pip install requests beautifulsoup4 matplotlib python-tk selenium pyvirtualdisplay xvfbwrapper    
 sudo apt install xvfb    
+pip install requests beautifulsoup4 matplotlib python-tk selenium pyvirtualdisplay xvfbwrapper    
 ```
 
 *Download Chrome Driver for Linux, unzip it, and goto the containing folder*    
