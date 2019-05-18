@@ -34,10 +34,7 @@ $ python pie.py
 *pie - Parse the JSON file and visualize it using a Pie Chart*    
        
 # Sample
-![alt text](https://github.com/sidhantnagpal/algorithmic-progress-visualizer/blob/master/sample/sample.png "Sample")
-
-# How to Contribute?
-Feel free to ping me via [email](mailto:sidhantnagpal97@gmail.com).    
+![alt text](https://github.com/sidhantnagpal/algorithmic-progress-visualizer/blob/master/sample/sample.png "Sample")    
     
 # License
 MIT
